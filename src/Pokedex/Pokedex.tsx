@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { PokemonDatail } from '../Pokemon/interfaces/PokemonDatail';
-import { GetPokemonDatails } from '../Pokemon/services/GetPokemonDatails';
 import { ListPokemons, PokemonListInterface } from '../Pokemon/services/ListPokemons';
 
 import Typography from '@material-ui/core/Typography';
@@ -11,17 +9,18 @@ import { AppBar, Toolbar, Box, Container, Grid } from '@material-ui/core';
 
 import { Card, CardActions, CardContent, Button } from '@material-ui/core';
 
+import { useHistory } from 'react-router-dom';
+
 interface PokedexProps {
 
 }
 
 export const Pokedex: React.FC<PokedexProps> = () => {
-
+  const history = useHistory();
   const [pokemons, setPokemons] = useState<PokemonListInterface[]>([]);
 
   const [selectedPokemon, setSelectedPokemon] = useState<PokemonListInterface | undefined>(undefined);
 
-  const [selectedPokemonDatails, SetselectedPokemonDatails] = useState<PokemonDatail | undefined>(undefined);
 
   useEffect(() => {
     ListPokemons().then((response) => {
@@ -29,14 +28,9 @@ export const Pokedex: React.FC<PokedexProps> = () => {
     })
   }, []);
 
-  useEffect(() => {
-    if (!selectedPokemon) return;
-
-    GetPokemonDatails(selectedPokemon.name).then((response) => {
-      SetselectedPokemonDatails(response);
-    });
-
-  }, [selectedPokemon]);
+  function handleClick(pokemon: PokemonListInterface) {
+    history.push(`/pokemon/${pokemon.name}`)
+  }
 
   return (
 
@@ -53,7 +47,7 @@ export const Pokedex: React.FC<PokedexProps> = () => {
       </AppBar>
 
       <Container maxWidth="lg">
-        <Box mt={10}>
+        <Box mt={5}>
 
           <Grid container spacing={2}>
 
@@ -61,23 +55,12 @@ export const Pokedex: React.FC<PokedexProps> = () => {
               <Grid item xs={6} lg={3}>
                 <Card variant="outlined">
                   <CardContent>
-                    <Typography color="textSecondary" gutterBottom>
+                    <Typography variant="h5" color="textSecondary" gutterBottom>
                       {pokemon.name}
-                    </Typography>
-                    <Typography variant="h5" component="h2">
-                      
-                    </Typography>
-
-                    <Typography color="textSecondary">
-                      ...
-                    </Typography>
-
-                    <Typography variant="body2" component="p">
-                      ...
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small">Learn More</Button>
+                    <Button onClick={() => handleClick(pokemon)} size="small">Abrir</Button>
                   </CardActions>
                 </Card>
               </Grid>
@@ -85,11 +68,7 @@ export const Pokedex: React.FC<PokedexProps> = () => {
 
           </Grid>
 
-          Pokemons:
-
-          <h2>Pokemon selecionado: {selectedPokemon?.name || "Nenhum pokemon selecionado"}</h2>
-
-          {JSON.stringify(selectedPokemonDatails, undefined, 2)}
+         
         </Box>
       </Container>
     </div>
