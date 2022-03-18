@@ -46,15 +46,57 @@ const PokemonDatails: React.FC<PokemonDatailProps> = () => {
 
       <Container maxWidth="lg">
         <Box mt={2}>
-
-          <img src={selectedPokemonDatails?.sprites.front_default} alt="" />
-
+          <img width="100%" height="auto" src={selectedPokemonDatails?.sprites.front_default} alt="" />
         </Box>
+
+        <Typography variant="h2">
+          {selectedPokemonDatails?.name}
+        </Typography>
+
+        {selectedPokemonDatails?.types.map((type) => <p>{type.type.name}</p>)}
+
+        <Box display="flex" flexDirection='row'>
+          <Typography>
+            Espécie:
+          </Typography>
+
+          <Typography>
+            {selectedPokemonDatails?.species.name}
+          </Typography>
+        </Box>
+
+        <Box display="flex" flexDirection='row'>
+          <Typography>
+            Altura:
+          </Typography>
+
+          <Typography>
+            {selectedPokemonDatails?.height}
+          </Typography>
+        </Box>
+
+        <Box display="flex" flexDirection='row'>
+          <Typography>
+            Peso:
+          </Typography>
+
+          <Typography>
+            {selectedPokemonDatails?.weight}
+          </Typography>
+        </Box>
+
+        <Box display="flex" flexDirection='row'>
+          <Typography>
+            Habilidades:
+          </Typography>
+
+          <Typography>
+            {selectedPokemonDatails?.abilities.map((ability) => <Typography>{ability.ability.name}</Typography>)}
+
+          </Typography>
+        </Box>
+
       </Container>
-
-      <h2>Pokemon selecionado: {name || "Nenhum pokemon selecionado"}</h2>
-
-      {JSON.stringify(selectedPokemonDatails, undefined, 2)}
     </div>
   );
 };

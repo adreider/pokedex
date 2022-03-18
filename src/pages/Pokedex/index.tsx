@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { ListPokemons, PokemonListInterface } from '../Pokemon/services/ListPokemons';
+import { ListPokemons, PokemonListInterface } from '../../services/ListPokemons';
 
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
 import { AppBar, Toolbar, Box, Container, Grid } from '@material-ui/core';
-
-import { Card, CardActions, CardContent, Button } from '@material-ui/core';
-
-import { useHistory } from 'react-router-dom';
+import PokedexCard from '../../components/PokedexCard';
 
 interface PokedexProps {
 
 }
 
 export const Pokedex: React.FC<PokedexProps> = () => {
-  const history = useHistory();
+
   const [pokemons, setPokemons] = useState<PokemonListInterface[]>([]);
 
   const [selectedPokemon, setSelectedPokemon] = useState<PokemonListInterface | undefined>(undefined);
@@ -28,9 +25,6 @@ export const Pokedex: React.FC<PokedexProps> = () => {
     })
   }, []);
 
-  function handleClick(pokemon: PokemonListInterface) {
-    history.push(`/pokemon/${pokemon.name}`)
-  }
 
   return (
 
@@ -53,16 +47,7 @@ export const Pokedex: React.FC<PokedexProps> = () => {
 
             {pokemons.map(pokemon => (
               <Grid item xs={6} lg={3}>
-                <Card variant="outlined">
-                  <CardContent>
-                    <Typography variant="h5" color="textSecondary" gutterBottom>
-                      {pokemon.name}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button onClick={() => handleClick(pokemon)} size="small">Abrir</Button>
-                  </CardActions>
-                </Card>
+                <PokedexCard pokemon={pokemon} />
               </Grid>
             ))}
 
