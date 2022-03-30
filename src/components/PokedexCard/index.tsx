@@ -19,6 +19,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { PokemonDatail } from '../../interfaces/PokemonDatail';
+import { Chip, Box } from '@material-ui/core';
 
 interface PokedexCardProps {
   pokemon: PokemonDatail;
@@ -32,88 +33,49 @@ const PokedexCard: React.FC<PokedexCardProps> = ({ pokemon }) => {
   }
 
   const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      maxWidth: 345,
-    },
-    media: {
-      height: 0,
-      paddingTop: '56.25%', // 16:9
-    },
-    expand: {
-      transform: 'rotate(0deg)',
-      marginLeft: 'auto',
-      transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-      }),
-    },
-    expandOpen: {
-      transform: 'rotate(180deg)',
-    },
-    avatar: {
-      backgroundColor: red[500],
-    },
-  }),
-);
+    createStyles({
+      root: {
+        maxWidth: 345,
+      },
+      media: {
+        height: 0,
+        padding: '75px', // 16:9
+      },
+      expand: {
+        transform: 'rotate(0deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
+          duration: theme.transitions.duration.shortest,
+        }),
+      },
+      expandOpen: {
+        transform: 'rotate(180deg)',
+      },
+      avatar: {
+        backgroundColor: red[500],
+      },
+    }),
+  );
 
-const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  const classes = useStyles();
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-  
   return (
     <>
-       <Card className={classes.root}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            R
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={pokemon.name}
-        subheader="September 14, 2016"
-      />
-      <CardMedia
-        className={classes.media}
-        image="/static/images/cards/paella.jpg"
-        title="Paella dish"
-      />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          This impressive paella is a perfect party dish and a fun meal to cook together with your
-          guests. Add 1 cup of frozen peas along with the mussels, if you like.
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton onClick={handleClick} aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-        </CardContent>
-      </Collapse>
-    </Card>
+      <Card className={classes.root} onClick={handleClick}>
+        <CardMedia
+          className={classes.media}
+          image={pokemon.sprites.other?.['official-artwork'].front_default}
+          title={pokemon.name}
+        />
+        <CardHeader
+          title={pokemon.name}
+          subheader={pokemon.types.map((type) => (
+            // <Box mr={1}>
+              <Chip label={type.type.name} variant="outlined" />
+            // </Box>
+          ))}
+        />
+      </Card>
     </>
   )
 

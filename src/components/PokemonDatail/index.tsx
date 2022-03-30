@@ -46,7 +46,7 @@ const PokemonDatails: React.FC<PokemonDatailProps> = () => {
 
       <Container maxWidth="lg">
         <Box mt={2}>
-          <img width="100%" height="auto" src={selectedPokemonDatails?.sprites.front_default} alt="" />
+          <img width="100%" height="auto" src={selectedPokemonDatails?.sprites.other?.['official-artwork'].front_default} alt="" />
         </Box>
 
         <Typography variant="h2">
