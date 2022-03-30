@@ -7,6 +7,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 import { AppBar, Toolbar, Box, Container, Grid } from '@material-ui/core';
 import PokedexCard from '../../components/PokedexCard';
+import { PokemonDatail } from '../../interfaces/PokemonDatail';
 
 interface PokedexProps {
 
@@ -14,7 +15,7 @@ interface PokedexProps {
 
 export const Pokedex: React.FC<PokedexProps> = () => {
 
-  const [pokemons, setPokemons] = useState<PokemonListInterface[]>([]);
+  const [pokemons, setPokemons] = useState<PokemonDatail[]>([]);
 
   const [selectedPokemon, setSelectedPokemon] = useState<PokemonListInterface | undefined>(undefined);
 

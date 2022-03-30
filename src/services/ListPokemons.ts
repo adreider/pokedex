@@ -1,4 +1,7 @@
 import axios from "axios";
+import { PokemonDatail } from "../interfaces/PokemonDatail";
+
+import { GetPokemonDatails } from "./GetPokemonDatails";
 
 export interface PokemonListInterface {
   name: string;
@@ -9,7 +12,7 @@ interface ListPokemonsInterface {
   count: number;
   next: null | string;
   previus: null | string;
-  results: Array<PokemonListInterface>;
+  results: Array<PokemonDatail>;
 }
 
 export async function ListPokemons(): Promise<ListPokemonsInterface> {
@@ -18,6 +21,13 @@ export async function ListPokemons(): Promise<ListPokemonsInterface> {
 
   const response = await axios.get<ListPokemonsInterface>(endpoint);
 
-  return response.data;
+  const promisseArr = response.data.results.map(({ name }) => GetPokemonDatails(name));
+
+  const resultsPromise = await Promise.all(promisseArr);
+
+  return {
+    ...response.data,
+    results: resultsPromise
+  }
 
 }
